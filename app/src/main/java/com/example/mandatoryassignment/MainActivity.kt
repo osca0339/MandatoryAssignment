@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        resaleItemsViewModel.updateMessageLiveData.observe(this) {message ->
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
