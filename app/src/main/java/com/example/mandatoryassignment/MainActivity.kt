@@ -9,12 +9,15 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import com.example.mandatoryassignment.databinding.ActivityMainBinding
+import com.example.mandatoryassignment.models.ResaleItemsViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val resaleItemsViewModel: ResaleItemsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
