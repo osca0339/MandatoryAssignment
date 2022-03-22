@@ -3,12 +3,13 @@ package com.example.mandatoryassignment.models
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mandatoryassignment.R
 
-class MyAdapter<T>(
-    private val items: List<T>,
+class MyAdapter(
+    private val items: List<ResaleItem>,
     private val onItemClicked: (position: Int) -> Unit
 ) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     override fun getItemCount(): Int {
@@ -22,12 +23,17 @@ class MyAdapter<T>(
     }
 
     override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
-        viewHolder.textView.text = items[position].toString()
+        val item = items[position]
+        viewHolder.textViewTitle.text = item.title
+        viewHolder.textViewPrice.text = item.price.toString()
+        viewHolder.detailsButton.text = "Details"
     }
 
     class MyViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val textView: TextView = itemView.findViewById(R.id.textview_list_item)
+        val textViewTitle: TextView = itemView.findViewById(R.id.textview_list_item_title)
+        val textViewPrice: TextView = itemView.findViewById(R.id.textview_list_item_price)
+        val detailsButton: Button = itemView.findViewById(R.id.textview_list_item_details)
 
         init {
             itemView.setOnClickListener(this)

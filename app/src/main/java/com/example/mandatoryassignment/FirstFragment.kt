@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mandatoryassignment.databinding.FragmentFirstBinding
+import com.example.mandatoryassignment.models.MyAdapter
 import com.example.mandatoryassignment.models.ResaleItemsViewModel
 
 class FirstFragment : Fragment() {
@@ -28,7 +30,28 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        resaleItemsViewModel.resaleItemsLiveData.observe(viewLifecycleOwner) { resaleItems ->
+            binding.progressbar.visibility = View.GONE
+            binding.recyclerView.visibility = if (resaleItems == null) View.GONE else View.VISIBLE
+            if(resaleItems != null) {
+                val adapter = MyAdapter(resaleItems) {
+                    //TODO Whatever goes here
+                }
+                binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+                binding.recyclerView.adapter = adapter
+            }
+        }
 
+        resaleItemsViewModel.errorMessageLiveData.observe(viewLifecycleOwner) { errorMessage ->
+            binding.textviewFirst.text = errorMessage
+        }
+
+        resaleItemsViewModel.reload()
+
+        binding.swiperefresh.setOnRefreshListener {
+            resaleItemsViewModel.reload()
+            binding.swiperefresh.isRefreshing = false
+        }
     }
 
     override fun onDestroyView() {

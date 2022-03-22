@@ -4,6 +4,6 @@ data class ResaleItem(val id: Int, val title: String, val description: String, v
     constructor(title: String, description: String, price: Int) : this(-1, title, description, price, "", -1, "" )
 
     override fun toString(): String {
-        return "$title, $description, $price"
+        return "$title $description $price"
     }
 }
