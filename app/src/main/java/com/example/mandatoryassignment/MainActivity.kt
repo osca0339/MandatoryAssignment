@@ -1,6 +1,7 @@
 package com.example.mandatoryassignment
 
 import android.os.Bundle
+import android.text.InputType
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,8 +10,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.example.mandatoryassignment.databinding.ActivityMainBinding
+import com.example.mandatoryassignment.models.ResaleItem
 import com.example.mandatoryassignment.models.ResaleItemsViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -32,8 +37,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            showDialog()
         }
 
         resaleItemsViewModel.updateMessageLiveData.observe(this) {message ->
@@ -61,5 +65,56 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    private fun showDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle("Add book")
+
+        val layout = LinearLayout(this@MainActivity)
+        layout.orientation = LinearLayout.VERTICAL
+
+        val titleInputField = EditText(this)
+        titleInputField.hint = "Title"
+        titleInputField.inputType = InputType.TYPE_CLASS_TEXT
+        layout.addView(titleInputField)
+
+        val descriptionInputField = EditText(this)
+        descriptionInputField.hint = "Description"
+        descriptionInputField.inputType = InputType.TYPE_CLASS_TEXT
+        layout.addView(descriptionInputField)
+
+        val bodyInputField = EditText(this)
+        bodyInputField.hint = "Price"
+        bodyInputField.inputType =
+            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        layout.addView(bodyInputField)
+
+        builder.setView(layout)
+
+        builder.setPositiveButton("OK") { dialog, which ->
+            val title = titleInputField.text.toString().trim()
+            val descriptionStr = descriptionInputField.text.toString().trim()
+            val priceStr = bodyInputField.text.toString().trim()
+            when {
+                title.isEmpty() ->
+                    //inputField.error = "No word"
+                    Snackbar.make(binding.root, "No title", Snackbar.LENGTH_LONG).show()
+                title.isEmpty() -> Snackbar.make(binding.root, "No title", Snackbar.LENGTH_LONG)
+                    .show()
+                priceStr.isEmpty() -> Snackbar.make(
+                    binding.root,
+                    "No price",
+                    Snackbar.LENGTH_LONG
+                )
+                    .show()
+                else -> {
+                    val resaleItem = ResaleItem(title, descriptionStr, priceStr.toInt())
+                    resaleItemsViewModel.add(resaleItem)
+                }
+            }
+        }
+        builder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
+        builder.show()
     }
 }
