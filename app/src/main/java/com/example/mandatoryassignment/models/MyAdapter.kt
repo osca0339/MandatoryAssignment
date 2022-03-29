@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mandatoryassignment.FirstFragmentDirections
 import com.example.mandatoryassignment.R
 
 class MyAdapter(
@@ -30,6 +31,10 @@ class MyAdapter(
         viewHolder.textViewTitle.text = item.title
         viewHolder.textViewPrice.text = item.price.toString()
         viewHolder.detailsButton.text = "Details"
+
+        viewHolder.detailsButton.setOnClickListener {
+            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.seller)
+        }
     }
 
     class MyViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit) :
