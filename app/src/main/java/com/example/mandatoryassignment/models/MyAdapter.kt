@@ -1,10 +1,13 @@
 package com.example.mandatoryassignment.models
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mandatoryassignment.R
 
@@ -36,7 +39,9 @@ class MyAdapter(
         val detailsButton: Button = itemView.findViewById(R.id.textview_list_item_details)
 
         init {
-            itemView.setOnClickListener(this)
+            detailsButton.setOnClickListener {
+                findNavController(itemView).navigate(R.id.action_FirstFragment_to_SecondFragment)
+            }
         }
 
         override fun onClick(view: View) {
