@@ -33,7 +33,7 @@ class MyAdapter(
         viewHolder.detailsButton.text = "Details"
 
         viewHolder.detailsButton.setOnClickListener {
-            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.seller)
+            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.id)
         }
     }
 
