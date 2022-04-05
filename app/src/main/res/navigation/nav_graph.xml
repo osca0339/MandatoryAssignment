@@ -24,5 +24,21 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+
+        <argument
+            android:name="title"
+            app:argType="string"/>
+        <argument
+            android:name="description"
+            app:argType="string"/>
+        <argument
+            android:name="price"
+            app:argType="integer"/>
+        <argument
+            android:name="seller"
+            app:argType="string"/>
+        <argument
+            android:name="date"
+            app:argType="integer"/>
     </fragment>
 </navigation>

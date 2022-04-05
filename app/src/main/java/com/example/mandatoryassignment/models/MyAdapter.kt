@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mandatoryassignment.FirstFragmentDirections
 import com.example.mandatoryassignment.R
 
 class MyAdapter(
@@ -30,6 +31,12 @@ class MyAdapter(
         viewHolder.textViewTitle.text = item.title
         viewHolder.textViewPrice.text = item.price.toString()
         viewHolder.detailsButton.text = "Details"
+
+        viewHolder.detailsButton.setOnClickListener { position ->
+            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.title, item.description, item.price, item.seller, item.date)
+            findNavController(viewHolder.itemView).navigate(action)
+            
+        }
     }
 
     class MyViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit) :
@@ -39,9 +46,9 @@ class MyAdapter(
         val detailsButton: Button = itemView.findViewById(R.id.textview_list_item_details)
 
         init {
-            detailsButton.setOnClickListener {
+            /*detailsButton.setOnClickListener {
                 findNavController(itemView).navigate(R.id.action_FirstFragment_to_SecondFragment)
-            }
+            }*/
         }
 
         override fun onClick(view: View) {
