@@ -34,10 +34,7 @@ class FirstFragment : Fragment() {
             binding.progressbar.visibility = View.GONE
             binding.recyclerView.visibility = if (resaleItems == null) View.GONE else View.VISIBLE
             if(resaleItems != null) {
-                val adapter = MyAdapter(resaleItems) { /*position ->
-                    val item = resaleItems[position]
-                    val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.title, item.description, item.price, item.seller, item.date)
-                    findNavController().navigate(action)*/
+                val adapter = MyAdapter(resaleItems) {
                 }
                 binding.recyclerView.layoutManager = LinearLayoutManager(activity)
                 binding.recyclerView.adapter = adapter

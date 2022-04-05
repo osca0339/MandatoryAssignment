@@ -35,7 +35,7 @@ class MyAdapter(
         viewHolder.detailsButton.setOnClickListener { position ->
             val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.title, item.description, item.price, item.seller, item.date)
             findNavController(viewHolder.itemView).navigate(action)
-            
+
         }
     }
 
@@ -46,9 +46,6 @@ class MyAdapter(
         val detailsButton: Button = itemView.findViewById(R.id.textview_list_item_details)
 
         init {
-            /*detailsButton.setOnClickListener {
-                findNavController(itemView).navigate(R.id.action_FirstFragment_to_SecondFragment)
-            }*/
         }
 
         override fun onClick(view: View) {
