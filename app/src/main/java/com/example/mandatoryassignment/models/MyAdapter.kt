@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseUser
 
 class MyAdapter(
     private val items: List<ResaleItem>,
-    private val authAppViewModel: AuthAppViewModel,
     private val onItemClicked: (position: Int) -> Unit
 ) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     override fun getItemCount(): Int {
@@ -31,15 +30,13 @@ class MyAdapter(
 
     override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
         val item = items[position]
-        val currentUser = authAppViewModel.getUserLiveData()
         viewHolder.textViewTitle.text = item.title
         viewHolder.textViewPrice.text = item.price.toString()
         viewHolder.detailsButton.text = "Details"
-        //item.seller = authAppViewModel.getUserLiveData().toString()
-        //TODO Figure out how to get currentUser email
+
 
         viewHolder.detailsButton.setOnClickListener { position ->
-            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.title, item.description, item.price, item.seller, item.date)
+            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.id ,item.title, item.description, item.price, item.seller, item.date)
             findNavController(viewHolder.itemView).navigate(action)
 
         }

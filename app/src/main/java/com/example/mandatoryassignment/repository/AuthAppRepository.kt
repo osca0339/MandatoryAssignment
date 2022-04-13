@@ -14,27 +14,35 @@ class AuthAppRepository {
     private var application: Application
     private var firebaseAuth: FirebaseAuth
 
-    val userLiveData: MutableLiveData<FirebaseUser>
-    val loggedOutLiveData: MutableLiveData<Boolean>
+    /*val userLiveData: FirebaseUser
+    val loggedOutLiveData: MutableLiveData<Boolean>*/
 
     constructor(application: Application) {
         this.application = application
         this.firebaseAuth = FirebaseAuth.getInstance()
-        this.userLiveData = MutableLiveData()
+        /*this.userLiveData = FirebaseAuth.getInstance()
         this.loggedOutLiveData = MutableLiveData()
 
-        if (firebaseAuth.getCurrentUser() != null) {
-            userLiveData.postValue(firebaseAuth.getCurrentUser())
+        if (firebaseAuth.currentUser != null) {
+            userLiveData.postValue(firebaseAuth.currentUser)
             loggedOutLiveData.postValue(false)
-        }
+        }*/
     }
 
-    fun getUserLiveDataMethod(): MutableLiveData<FirebaseUser> {
+    /*fun getUserLiveDataMethod(): MutableLiveData<FirebaseUser> {
         return userLiveData
     }
 
     fun getLoggedOutLiveDataMethod(): MutableLiveData<Boolean> {
         return loggedOutLiveData
+    }*/
+
+    fun getUserLiveDataMethod(): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
+
+    fun getCurrentEmail(): String? {
+        return firebaseAuth.currentUser!!.email
     }
 
 
@@ -42,7 +50,7 @@ class AuthAppRepository {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    userLiveData.postValue(firebaseAuth.currentUser)
+                    login(email, password)
                 } else {
                     Toast.makeText(application, "Registration Failure: " + task.exception!!.message, Toast.LENGTH_SHORT).show();
                 }
@@ -53,7 +61,7 @@ class AuthAppRepository {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if(task.isSuccessful) {
-                    userLiveData.postValue(firebaseAuth.currentUser)
+                    firebaseAuth.updateCurrentUser(firebaseAuth.currentUser!!)
                 } else {
                     Toast.makeText(application, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
@@ -63,7 +71,8 @@ class AuthAppRepository {
 
     fun logOut() {
         firebaseAuth.signOut()
-        loggedOutLiveData.postValue(true)
+        getUserLiveDataMethod()
+        //loggedOutLiveData.postValue(true)
     }
 }
 

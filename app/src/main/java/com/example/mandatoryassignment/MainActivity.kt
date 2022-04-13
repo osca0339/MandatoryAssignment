@@ -2,6 +2,7 @@ package com.example.mandatoryassignment
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -15,17 +16,26 @@ import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.example.mandatoryassignment.databinding.ActivityMainBinding
+import com.example.mandatoryassignment.models.AuthAppViewModel
 import com.example.mandatoryassignment.models.ResaleItem
 import com.example.mandatoryassignment.models.ResaleItemsViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
     private val resaleItemsViewModel: ResaleItemsViewModel by viewModels()
+    private val authAppViewModel: AuthAppViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = Firebase.auth
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -36,9 +46,12 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+
         binding.fab.setOnClickListener { view ->
+            Log.d("HEJ", auth.currentUser!!.email!!)
             showDialog()
         }
+
 
         resaleItemsViewModel.updateMessageLiveData.observe(this) {message ->
             Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
@@ -69,7 +82,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Add book")
+        builder.setTitle("Add Item")
+        auth = Firebase.auth
 
         val layout = LinearLayout(this@MainActivity)
         layout.orientation = LinearLayout.VERTICAL
@@ -93,9 +107,13 @@ class MainActivity : AppCompatActivity() {
         builder.setView(layout)
 
         builder.setPositiveButton("OK") { dialog, which ->
+            val itemList = arrayOf(resaleItemsViewModel.resaleItemsLiveData)
             val title = titleInputField.text.toString().trim()
             val descriptionStr = descriptionInputField.text.toString().trim()
             val priceStr = bodyInputField.text.toString().trim()
+            val date = System.currentTimeMillis()
+            val nextId = itemList.size + 1
+
             when {
                 title.isEmpty() ->
                     //inputField.error = "No word"
@@ -109,7 +127,8 @@ class MainActivity : AppCompatActivity() {
                 )
                     .show()
                 else -> {
-                    val resaleItem = ResaleItem(title, descriptionStr, priceStr.toInt())
+                    //TODO email
+                    val resaleItem = ResaleItem(nextId, title, descriptionStr, priceStr.toInt(), date.toInt(), auth.currentUser!!.email!!)
                     resaleItemsViewModel.add(resaleItem)
                 }
             }

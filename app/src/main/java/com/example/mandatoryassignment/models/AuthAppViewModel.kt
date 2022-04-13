@@ -8,8 +8,8 @@ import com.google.firebase.auth.FirebaseUser
 
 class AuthAppViewModel: ViewModel() {
     private val repository = AuthAppRepository(application = Application())
-    private val userLiveData: MutableLiveData<FirebaseUser> = repository.getUserLiveDataMethod()
-    private val loggedOutLiveData: MutableLiveData<Boolean> = repository.getLoggedOutLiveDataMethod()
+    private val userLiveData: FirebaseUser? = repository.getUserLiveDataMethod()
+    //private val loggedOutLiveData: MutableLiveData<Boolean> = repository.getLoggedOutLiveDataMethod()
 
     fun login(email: String, password: String) {
         repository.login(email, password)
@@ -19,7 +19,7 @@ class AuthAppViewModel: ViewModel() {
         repository.register(email, password)
     }
 
-    fun getUserLiveData(): MutableLiveData<FirebaseUser> {
+    fun getUserLiveData(): FirebaseUser? {
         return userLiveData
     }
 
@@ -27,8 +27,12 @@ class AuthAppViewModel: ViewModel() {
         repository.logOut()
     }
 
-    fun getLoggedOutLiveData(): MutableLiveData<Boolean> {
+    /*fun getLoggedOutLiveData(): MutableLiveData<Boolean> {
         return loggedOutLiveData
-    }
+    }*/
+
+    /*fun getCurrentEmail(): String? {
+        return getCurrentEmail()
+    }*/
 
 }

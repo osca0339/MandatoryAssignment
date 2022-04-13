@@ -14,6 +14,12 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_LoginRegistrationFragment"
+            app:destination="@id/LoginRegistrationFragment"/>
+        <action
+            android:id="@+id/refresh"
+            app:destination="@id/FirstFragment"/>
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,6 +30,10 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+
+        <argument
+            android:name="id"
+            app:argType="integer"/>
 
         <argument
             android:name="title"
@@ -40,5 +50,15 @@
         <argument
             android:name="date"
             app:argType="integer"/>
+    </fragment>
+    <fragment
+        android:id="@+id/LoginRegistrationFragment"
+        android:name="com.example.mandatoryassignment.LoginRegistrationFragment"
+        android:label="Login Registration Fragment"
+        tools:layout="@layout/login_registration_fragment">
+
+        <action
+            android:id="@+id/action_LoginRegistrationFragment_to_FirstFragment"
+            app:destination="@+id/FirstFragment"/>
     </fragment>
 </navigation>

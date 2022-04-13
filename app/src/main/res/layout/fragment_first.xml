@@ -7,6 +7,19 @@
     android:orientation="vertical"
     tools:context=".FirstFragment">
 
+    <Button
+        android:id="@+id/to_login_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login/Register"/>
+
+    <TextView
+        android:id="@+id/logged_in_as"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""/>
+
+
     <TextView
         android:id="@+id/textview_first"
         android:layout_width="wrap_content"
