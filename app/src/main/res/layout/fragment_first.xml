@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="4"
     tools:context=".FirstFragment">
 
     <Button
@@ -19,6 +20,20 @@
         android:layout_height="wrap_content"
         android:text=""/>
 
+    <Spinner
+        android:id="@+id/sorting_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/logged_in_as"
+        app:layout_constraintTop_toTopOf="@id/textview_first"
+        android:entries="@array/sort_spinner"/>
+
+    <EditText
+        android:id="@+id/filter_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/logged_in_as"
+        app:layout_constraintTop_toTopOf="@id/textview_first"/>
 
     <TextView
         android:id="@+id/textview_first"

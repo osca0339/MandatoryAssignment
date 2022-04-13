@@ -6,6 +6,14 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string-array name="sort_spinner">
+        <item>Alphabetical Ascending</item>
+        <item>Alphabetical Descending</item>
+        <item>Price Ascending</item>
+        <item>Price Descending</item>
+        <item>Newest</item>
+        <item>Oldest</item>
+    </string-array>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>

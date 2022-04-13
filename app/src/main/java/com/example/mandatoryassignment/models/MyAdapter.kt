@@ -15,7 +15,7 @@ import com.example.mandatoryassignment.repository.AuthAppRepository
 import com.google.firebase.auth.FirebaseUser
 
 class MyAdapter(
-    private val items: List<ResaleItem>,
+    val items: List<ResaleItem>,
     private val onItemClicked: (position: Int) -> Unit
 ) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     override fun getItemCount(): Int {
