@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-abstract class FirstFragment : Fragment() {
+class FirstFragment : Fragment() {
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
@@ -61,29 +61,8 @@ abstract class FirstFragment : Fragment() {
         }
 
         //TODO this garbage
-        var sortedList: List<ResaleItem>
-        binding.sortingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                sortedList = sortItems()
-            }
-        }
 
         resaleItemsViewModel.resaleItemsLiveData.observe(viewLifecycleOwner) { resaleItems ->
-            if(sortedList.isNotEmpty()) {
-                binding.progressbar.visibility = View.GONE
-                binding.recyclerView.visibility = if (sortedList == null) View.GONE else View.VISIBLE
-                if(sortedList != null) {
-                    val adapter = MyAdapter(sortedList) {
-                    }
-                    binding.recyclerView.layoutManager = LinearLayoutManager(activity)
-                    binding.recyclerView.adapter = adapter
-
-                }
-            }
             binding.progressbar.visibility = View.GONE
             binding.recyclerView.visibility = if (resaleItems == null) View.GONE else View.VISIBLE
             if(resaleItems != null) {
@@ -91,6 +70,19 @@ abstract class FirstFragment : Fragment() {
                 }
                 binding.recyclerView.layoutManager = LinearLayoutManager(activity)
                 binding.recyclerView.adapter = adapter
+
+                binding.sortingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        Log.d("HEJ", "wth")
+                        val spinner = binding.sortingSpinner.selectedItem as String
+                        adapter.sort(spinner, resaleItems)
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+                }
 
             }
 
@@ -116,21 +108,10 @@ abstract class FirstFragment : Fragment() {
         }
     }
 
-    fun sortItems(): List<ResaleItem> {
-        val sortedList: List<ResaleItem>
-        sortedList = ArrayList()
-        resaleItemsViewModel.resaleItemsLiveData to sortedList
+    fun sortItems() {
+        Log.d("HEJ", "Sorted")
         val spinner = binding.sortingSpinner.selectedItem as String
-        when (spinner) {
-            "Alphabetical Ascending" -> return sortedList.sortedBy { it.title }
-            "Alphabetical Descending" -> return sortedList.sortedBy { it.title }
-            "Price Ascending" -> return sortedList.sortedBy { it.price }
-            "Price Descending" -> return sortedList.sortedByDescending { it.price }
-            "Newest" -> return sortedList.sortedBy { it.date }
-            "Oldest" -> return sortedList.sortedByDescending { it.date }
-        }
-
-        return sortedList
+        //resaleItemsViewModel.sort(spinner)
     }
 
     override fun onDestroyView() {

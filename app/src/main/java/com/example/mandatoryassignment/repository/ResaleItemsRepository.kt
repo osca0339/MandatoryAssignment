@@ -1,6 +1,8 @@
 package com.example.mandatoryassignment.repository
 
 import android.util.Log
+import androidx.arch.core.util.Function
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.mandatoryassignment.models.ResaleItem
@@ -86,5 +88,25 @@ class ResaleItemsRepository {
                 Log.d("APPLE", t.message!!)
             }
         })
+    }
+
+    fun sort(sortBy: String): LiveData<List<ResaleItem>> {
+        Log.d("HEJ", "Repos")
+        val unsortedResaleItems: LiveData<List<ResaleItem>> = resaleItemsLiveData
+        val sortedResaleItems: LiveData<List<ResaleItem>> = Transformations.map(unsortedResaleItems, Function { resaleItems ->
+            when(sortBy) {
+                "Alphabetical Ascending" -> resaleItems.sortedBy { it.title }
+                "Alphabetical Descending" -> resaleItems.sortedByDescending { it.title }
+                "Price Ascending" -> resaleItems.sortedBy { it.price }
+                "Price Descending" -> resaleItems.sortedByDescending { it.price }
+                "Newest" -> resaleItems.sortedBy { it.date }
+                "Oldest" -> resaleItems.sortedByDescending { it.date }
+                else -> {
+                    resaleItems.sortedBy { it.title }
+                }
+            }
+        })
+        Log.d("HEJ", "Return")
+        return sortedResaleItems
     }
 }

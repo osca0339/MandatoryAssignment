@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -39,6 +41,22 @@ class MyAdapter(
             val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(item.id ,item.title, item.description, item.price, item.seller, item.date)
             findNavController(viewHolder.itemView).navigate(action)
 
+        }
+    }
+
+    fun sort(sortBy: String, unsortedResaleItems: List<ResaleItem>) {
+        //val unsortedResaleItems: List<ResaleItem> = items
+        Log.d("HEJ", "Adapter")
+        when(sortBy) {
+            "Alphabetical Ascending" -> unsortedResaleItems.sortedBy { it.title }
+            "Alphabetical Descending" -> unsortedResaleItems.sortedByDescending { it.title }
+            "Price Ascending" -> unsortedResaleItems.sortedBy { it.price }
+            "Price Descending" -> unsortedResaleItems.sortedByDescending { it.price }
+            "Newest" -> unsortedResaleItems.sortedBy { it.date }
+            "Oldest" -> unsortedResaleItems.sortedByDescending { it.date }
+            else -> {
+                unsortedResaleItems.sortedBy { it.title }
+            }
         }
     }
 
